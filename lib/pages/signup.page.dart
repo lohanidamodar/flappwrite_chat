@@ -17,37 +17,37 @@ class _SignupPageState extends State<SignupPage> {
 
   Widget _signupButton() {
     return ElevatedButton(
-        onPressed: () async {
-          if (_emailController.text.isEmpty ||
-              _passwordController.text.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Please fill all the fields'),
-            ));
-            return;
-          }
+      onPressed: () async {
+        if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Please fill all the fields'),
+          ));
+          return;
+        }
 
-          final name = _nameController.text;
-          final email = _emailController.text;
-          final password = _passwordController.text;
+        final name = _nameController.text;
+        final email = _emailController.text;
+        final password = _passwordController.text;
 
-          final user = await context.authNotifier.create(
-            email: email,
-            password: password,
-            name: name,
-          );
+        final user = await context.authNotifier.create(
+          email: email,
+          password: password,
+          name: name,
+        );
 
-          if (user == null) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(context.authNotifier.error ?? 'Signup failed'),
-            ));
-          } else {
-            // save to collection
-            appwrite.saveUser(
-                name: user.name, email: user.email, userId: user.id);
-            Navigator.pop(context);
-          }
-        },
-        child: const Text("Signup"));
+        if (user == null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(context.authNotifier.error ?? 'Signup failed'),
+          ));
+        } else {
+          // save to collection
+          appwrite.saveUser(
+              name: user.name, email: user.email, userId: user.id);
+          Navigator.pop(context);
+        }
+      },
+      child: const Text("Signup"),
+    );
   }
 
   @override
