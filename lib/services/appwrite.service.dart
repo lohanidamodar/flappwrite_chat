@@ -43,6 +43,18 @@ class AppwriteService {
       _error = e.message;
     }
   }
+
+  Future<List<User>> getUsers() async {
+    try {
+      final res =
+          await _db.listDocuments(collectionId: AppConstants.usersCollection);
+      return List<User>.from(
+          res.data['documents'].map((doc) => User.fromMap(doc)));
+    } on ap.AppwriteException catch (e) {
+      _error = e.message;
+      return [];
+    }
+  }
 }
 
 final appwrite = AppwriteService();
